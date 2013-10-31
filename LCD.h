@@ -20,3 +20,9 @@ void writeChar(char asciiChar);
 void writeString(char * string);
 
 void scrollString(char * string1, char * string2);
+
+void writeCommandNibble(char commandNibble);
+
+void writeCommandByte(char commandByte);
+
+void writeDataByte(char dataByte);

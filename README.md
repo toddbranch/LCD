@@ -26,6 +26,8 @@
 
 int main()
 {
+	WDTCTL = WDTPW | WDTHOLD;
+
 	initSPI();
 	LCDinit();
 	LCDclear();

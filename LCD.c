@@ -2,6 +2,7 @@
 #include "LCD.h"
 
 #define E_MASK 0x80
+#define RS_MASK 0x40
 
 char LCDCON;
 
@@ -104,21 +105,21 @@ void initSPI()
 
 void writeDataByte(char dataByte)
 {
-    LCDCON = 0x40;
+    LCDCON |= RS_MASK;
     LCD_write_8(dataByte);
     delayMilli();
 }
 
 void writeCommandNibble(char commandNibble)
 {
-    LCDCON = 0;
+    LCDCON &= ~RS_MASK;
     LCD_write_4(commandNibble);
     delayMilli();
 }
 
 void writeCommandByte(char commandByte)
 {
-    LCDCON = 0;
+    LCDCON &= ~RS_MASK;
     LCD_write_8(commandByte);
     delayMilli();
 }
@@ -215,7 +216,11 @@ void rotateString(char * string)
     *string = frontChar;
 }
 
-/*void scrollString(char * string1, char * string2)
+/*
+ *
+ * Alternative string scrolling technique - via rewriting strings.
+ *
+void scrollString(char * string1, char * string2)
 {
     while (1) {
         writeString(string1);
@@ -239,7 +244,6 @@ void scrollString(char * string1, char * string2)
         current1 = printFromPosition(string1, current1, 8);
         cursorToLineTwo();
         current2 = printFromPosition(string2, current2, 8);
-
         cursorToLineOne();
         __delay_cycles(500000);
     }
